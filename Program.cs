@@ -1,92 +1,92 @@
 ﻿using System;
 
-// Clase que representa un libro
-public class Libro
+// Clase que representa un ejemplar de biblioteca
+public class Ejemplar
 {
-    // Atributos de la clase Libro
-    public string Nombre { get; set; }
-    public string Autor { get; set; }
-    public int AnioPublicacion { get; set; }
+    // Propiedades del ejemplar
+    public string Titulo { get; set; }
+    public string Escritor { get; set; }
+    public int AnoPublicacion { get; set; }
 
-    // Constructor
-    public Libro(string nombre, string autor, int anioPublicacion)
+    // Constructor de la clase Ejemplar
+    public Ejemplar(string titulo, string escritor, int anoPublicacion)
     {
-        this.Nombre = nombre;
-        this.Autor = autor;
-        this.AnioPublicacion = anioPublicacion;
+        this.Titulo = titulo;
+        this.Escritor = escritor;
+        this.AnoPublicacion = anoPublicacion;
     }
 
-    // Propiedades para acceder a los atributos
-    public string nombre
+    // Propiedades alternativas para acceder a los atributos
+    public string titulo
     {
-        get => Nombre;
-        set => Nombre = value;
+        get => Titulo;
+        set => Titulo = value;
     }
 
-    public string autor
+    public string escritor
     {
-        get => Autor;
-        set => Autor = value;
+        get => Escritor;
+        set => Escritor = value;
     }
 
-    public int anioPublicacion
+    public int anoPublicacion
     {
-        get => AnioPublicacion;
+        get => AnoPublicacion;
         set
         {
             if (value > 0)
             {
-                AnioPublicacion = value;
+                AnoPublicacion = value;
             }
             else
             {
-                throw new ArgumentException("El año de publicación debe ser mayor a 0");
+                throw new ArgumentException("El año de publicación debe ser mayor que cero.");
             }
         }
     }
 
-    // Método para obtener la antigüedad del libro
-    public int ObtenerAntiguedad()
+    // Método para imprimir los detalles del ejemplar
+    public void ImprimirDetalles()
     {
-        return DateTime.Now.Year - AnioPublicacion;
+        Console.WriteLine($"Título: {Titulo}, Autor: {Escritor}, Año de Publicación: {AnoPublicacion}");
     }
 
-    // Método para comparar la antigüedad
-    public bool EsMenorAnios(int anios)
+    // Método para verificar si el ejemplar es reciente
+    public bool EsNuevo()
     {
-        return ObtenerAntiguedad() < anios;
-    }
-
-    // Método para mostrar información del libro
-    public void MostrarInformacion()
-    {
-        Console.WriteLine($"Nombre: {Nombre}, Autor: {Autor}, Año de publicación: {AnioPublicacion}");
+        int anoActual = DateTime.Now.Year;
+        return (anoActual - AnoPublicacion) < 1;
     }
 }
 
-// Clase principal para ejecutar el programa
-class Program
+// Programa principal para probar la clase Ejemplar
+public class Program
 {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
-        // Datos predeterminados del libro
-        string nombre = "Cien Años de Soledad";
-        string autor = "Gabriel García Márquez";
-        int anio = 1967;
+        var ejemplar = new Ejemplar("Desarrollo Actual", "Rony", 2025);
+        ejemplar.ImprimirDetalles();
 
-        var libro = new Libro(nombre, autor, anio);
-        libro.MostrarInformacion();
-
-        Console.Write("Ingrese los años para comparar antigüedad: ");
-        int aniosComparar = int.Parse(Console.ReadLine());
-
-        if (libro.EsMenorAnios(aniosComparar))
+        if (ejemplar.EsNuevo())
         {
-            Console.WriteLine($"El libro \"{libro.Nombre}\" es más nuevo que {aniosComparar} años.");
+            Console.WriteLine("El ejemplar es nuevo (menos de un año desde su publicación).");
         }
         else
         {
-            Console.WriteLine($"El libro \"{libro.Nombre}\" tiene {libro.ObtenerAntiguedad()} años o más.");
+            Console.WriteLine("El ejemplar no es nuevo.");
+        }
+
+        // Cambiamos el año de publicación para probar
+        //ejemplar.anoPublicacion = DateTime.Now.Year - 2;
+        //ejemplar.ImprimirDetalles();
+
+        if (ejemplar.EsNuevo())
+        {
+            Console.WriteLine("El ejemplar es nuevo.");
+        }
+        else
+        {
+            Console.WriteLine("El ejemplar no es nuevo.");
         }
     }
 }
